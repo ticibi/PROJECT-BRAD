@@ -3,7 +3,7 @@
 # Manages game states
 extends Node
 
-const PORT : int = 1337
+const PORT : int = 61111
 
 @onready var main : Node = get_tree().root.get_node("Main")
 @onready var players : Node = main.get_node("Players")
@@ -13,7 +13,7 @@ var map : Node = null
 
 
 func _ready():
-	menu = preload("res://scenes/menu.tscn").instantiate()
+	menu = preload("res://multiplayer/menu.tscn").instantiate()
 	main.add_child(menu)
 	
 	# if multiplayer.is_server():
@@ -28,14 +28,14 @@ func load_map():
 		menu.queue_free()
 	
 	# Spawn map.
-	map = preload("res://scenes/map.tscn").instantiate()
+	map = preload("res://multiplayer/map.tscn").instantiate()
 	main.add_child(map)
 	
 	# if multiplayer.is_server():
 	spawn_player(multiplayer.get_unique_id())
 
 func spawn_player(id: int):
-	var player = preload("res://scenes/player.tscn").instantiate()
+	var player = preload("res://multiplayer/player.tscn").instantiate()
 	player.peer_id = id
 	players.add_child(player, true)
 
