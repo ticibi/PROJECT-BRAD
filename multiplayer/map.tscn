@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://d0kbbii8qj6we"]
+[gd_scene load_steps=7 format=3 uid="uid://d0kbbii8qj6we"]
 
-[ext_resource type="Texture2D" uid="uid://bhcl46pw2cxe7" path="res://icon.svg" id="1_newfd"]
+[ext_resource type="Texture2D" uid="uid://bhcl46pw2cxe7" path="res://multiplayer/icon.svg" id="1_j3kur"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_apb68"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -15,8 +15,10 @@ sky = SubResource("Sky_xsbnd")
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c5pk7"]
+albedo_texture = ExtResource("1_j3kur")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_if3v1"]
-albedo_texture = ExtResource("1_newfd")
 uv1_scale = Vector3(16, 16, 16)
 
 [node name="Map" type="Node"]
@@ -30,6 +32,7 @@ shadow_enabled = true
 
 [node name="Floor" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -40, 0)
+material_override = SubResource("StandardMaterial3D_c5pk7")
 use_collision = true
 size = Vector3(64, 64, 64)
 material = SubResource("StandardMaterial3D_if3v1")

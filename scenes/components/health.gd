@@ -12,12 +12,12 @@ signal died(target)
 		return max_health
 var current_health: float = 100.0:
 	set(value):
-		_set_health(value)
+		current_health = value
 	get:
 		return current_health
 
 func _init():
-	_set_health(max_health)
+	_change_health(max_health)
 
 func _set_health(value:float):
 	current_health = clamp(value, 0, max_health)
@@ -26,7 +26,7 @@ func _change_health(value:float):
 	_set_health(value)
 	emit_signal("health_changed", self, current_health)
 	if current_health <= 0:
-		emit_signal("died", self)
+		emit_signal("death", self)
 
 func take_damage(amount:float):
 	if damageable:

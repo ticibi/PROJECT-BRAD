@@ -3,20 +3,20 @@ class_name Stamina
 
 signal stamina_changed(target, current_stamina)
 
-@export var infinite_stamina: bool = true
-@export var regen_rate: float =  10.0 # amount per second
+# @export var infinite_stamina: bool = true
+@export var regen_rate: float =  1.0 # amount per second
 @export var max_stamina: float = 100.0:
 	get:
 		return max_stamina
 var current_stamina: float = 100.0:
 	set(value):
-		_set_stamina(value)
+		current_stamina = value
 	get:
 		return current_stamina
 var is_regenerating: bool = false
 
 func _init():
-	_set_stamina(max_stamina)
+	_change_stamina(max_stamina)
 
 func _set_stamina(value:float):
 	current_stamina = clamp(current_stamina, 0, max_stamina)
@@ -32,6 +32,10 @@ func _process(delta):
 
 func deplete_stamina(amount:float):
 	_change_stamina(current_stamina - amount)
+	if current_stamina < max_stamina:
+		is_regenerating = true
 
 func regenerate_stamina(delta):
 	_change_stamina(current_stamina + regen_rate * delta)
+	if current_stamina >= max_stamina:
+		is_regenerating = false

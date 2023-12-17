@@ -4,7 +4,7 @@ const GRAVITY = 30.0
 const SPEED = 15.0
 const JUMP_VELOCITY = 10.0
 
-# Peer id.
+@export var mouse_look_speed: float = 0.005
 @export var peer_id : int : 
 	set(value):
 		peer_id = value
@@ -50,6 +50,7 @@ func _physics_process(delta):
 func _input(event):
 	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
 		return
-	# Handle body rotation.
 	if event is InputEventMouseMotion:
-		rotation.y += event.relative.x * -0.001
+		rotation.y += event.relative.x * -mouse_look_speed
+		rotation.x += event.relative.y * -mouse_look_speed
+		rotation.x = clamp(rotation.x, -1.0, 1.5)
