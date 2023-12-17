@@ -1,6 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://d0kbbii8qj6we"]
+[gd_scene load_steps=9 format=3 uid="uid://d0kbbii8qj6we"]
 
 [ext_resource type="Texture2D" uid="uid://bhcl46pw2cxe7" path="res://multiplayer/icon.svg" id="1_j3kur"]
+[ext_resource type="Shader" path="res://random stuff that im working on that I dont know what it does but shouldnt affect anyhting really/world_grid.gdshader" id="2_gaxtn"]
+[ext_resource type="PackedScene" uid="uid://dux6dj1nfrkgx" path="res://volumes/DamageVolume.tscn" id="2_y4546"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_apb68"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -18,8 +20,19 @@ glow_enabled = true
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c5pk7"]
 albedo_texture = ExtResource("1_j3kur")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_if3v1"]
-uv1_scale = Vector3(16, 16, 16)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mdyw5"]
+render_priority = 0
+shader = ExtResource("2_gaxtn")
+shader_parameter/gridColor = null
+shader_parameter/checkerColor = null
+shader_parameter/fadeStart = 0.0
+shader_parameter/fadeEnd = 10.0
+shader_parameter/unitSize = 1.0
+shader_parameter/subdivisions = 5
+shader_parameter/majorLineThickness = 2.0
+shader_parameter/minorLineThickness = 1.0
+shader_parameter/minorLineAlpha = 0.3
+shader_parameter/centerOffset = Vector3(0, 0, 0)
 
 [node name="Map" type="Node"]
 
@@ -31,13 +44,23 @@ transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75
 shadow_enabled = true
 
 [node name="Floor" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -40, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0263767, -1.27754, -0.00614357)
 material_override = SubResource("StandardMaterial3D_c5pk7")
 use_collision = true
-size = Vector3(64, 64, 64)
-material = SubResource("StandardMaterial3D_if3v1")
+size = Vector3(64, 2.62549, 64)
+material = SubResource("ShaderMaterial_mdyw5")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.716302, -0.018266, 0.697551, 0, 0.999657, 0.0261769, -0.697791, -0.0187506, 0.716056, 28.9686, -4.031, 29.6568)
+transform = Transform3D(0.716302, -0.018266, 0.697552, 0, 0.999657, 0.0261769, -0.697791, -0.0187506, 0.716056, 28.9686, 1.70763, 29.6568)
 current = true
 fov = 70.0
+
+[node name="Volumes" type="Node" parent="."]
+
+[node name="Damage" parent="Volumes" instance=ExtResource("2_y4546")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -1.90575, 1.00734, -5.53945)
+
+[node name="Heal" parent="Volumes" instance=ExtResource("2_y4546")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 3.15201, 1.00734, -5.53945)
+text = "heal"
+damage_amount = -10.0

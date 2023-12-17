@@ -1,0 +1,26 @@
+This shader makes an object invisible. When you look through the object at text it appears white.
+When you don't look through it at text it appears black.
+
+
+shader_type spatial;
+render_mode cull_disabled, depth_draw_always;
+
+uniform float outline_size : hint_range(0.0, 0.05) = 0.02;
+uniform vec4 outline_color : source_color = vec4(1.0, 0.0, 0.0, 1.0); // Red color
+
+void vertex() {
+	// Inflate the vertex positions along the normals
+	VERTEX += NORMAL * outline_size;
+}
+
+void fragment() {
+	// Set the outline color and make the main faces invisible
+	ALBEDO = outline_color.rgb;
+	ALPHA = 0.0; // Makes the faces invisible
+}
+
+void light() {
+	// Make the outline unaffected by lighting
+	DIFFUSE_LIGHT.rgb = vec3(0.0);
+	SPECULAR_LIGHT.rgb = vec3(0.0);
+}

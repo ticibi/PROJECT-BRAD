@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://dux6dj1nfrkgx"]
+
+[ext_resource type="Script" path="res://volumes/DamageVolume.gd" id="1_p5u0v"]
+[ext_resource type="Shader" path="res://random stuff that im working on that I dont know what it does but shouldnt affect anyhting really/fresnel_outline.gdshader" id="2_q8yvn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bbe4d"]
+render_priority = 0
+shader = ExtResource("2_q8yvn")
+shader_parameter/outline_width = 5.0
+shader_parameter/base_color = Color(1, 1, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2wqg3"]
+material = SubResource("ShaderMaterial_bbe4d")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tv5qg"]
+
+[node name="DamageVolume" type="Area3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+collision_layer = 0
+collision_mask = 15
+script = ExtResource("1_p5u0v")
+damage_interval = 1.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("BoxMesh_2wqg3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_tv5qg")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.454278, 0)
+text = "Text Here"
+font_size = 45
+
+[node name="Collision" type="Node3D" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_body_entered"]
+[connection signal="area_exited" from="." to="." method="_on_body_exited"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

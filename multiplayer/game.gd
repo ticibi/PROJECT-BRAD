@@ -21,13 +21,13 @@ func _ready():
 	multiplayer.peer_disconnected.connect(remove_player)
 
 func load_map():
-	# Free old stuff.
+	# Free old stuff
 	if map != null:
 		map.queue_free()
 	if menu != null:
 		menu.queue_free()
 	
-	# Spawn map.
+	# Spawn map
 	map = preload("res://multiplayer/map.tscn").instantiate()
 	main.add_child(map)
 	
