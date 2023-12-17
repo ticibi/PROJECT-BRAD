@@ -1,9 +1,9 @@
 extends Control
 
-@onready var health_bar: ProgressBar = $HealthBar
-@onready var stamina_bar: ProgressBar = $StaminaBar
-@onready var health_label: Label = $HealthLabel
-@onready var stamina_label: Label = $StaminaLabel
+@onready var health_bar: TextureProgressBar = $HBoxContainer/HealthBar
+@onready var stamina_bar: TextureProgressBar = $HBoxContainer/StaminaBar
+@onready var health_label: Label = $HBoxContainer/HealthBar/HealthLabel
+@onready var stamina_label: Label = $HBoxContainer/StaminaBar/StaminaLabel
 
 func _ready():
 	var player = get_parent()
@@ -23,7 +23,8 @@ func on_stamina_changed(target, value:float):
 	stamina_label.text = "stamina: %s" % value
 	$AnimationPlayer.play("StaminaFlash")
 
-func interpolate_progress_bar(pbar:ProgressBar, new_value:float, duration:float=0.5):
+func interpolate_progress_bar(pbar:TextureProgressBar, new_value:float, duration:float=0.5):
 	var current_value = pbar.value
-	var tween = create_tween()
-	tween.interpolate_value(current_value, new_value-current_value, duration, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	pbar.value = new_value
+	#var tween = create_tween()
+	#tween.interpolate_value(current_value, new_value-current_value, duration, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
